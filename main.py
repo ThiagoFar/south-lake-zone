@@ -20,6 +20,7 @@ def root():
 @app.post("/items")
 def create_item(item: Item):
     items.append(item)
+    #SQL insert
     return items
 
 
