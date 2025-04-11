@@ -1,37 +1,60 @@
-from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
+import uvicorn
+from fastapi import FastAPI
+from fastapi_sqlalchemy import DBSessionMiddleware, db
+
+from db_schema import Book as SchemaBook
+from db_schema import Author as SchemaAuthor
+
+from db_schema import Book
+from db_schema import Author
+
+from db_models import Book as ModelBook
+from db_models import Author as ModelAuthor
+
+import os
+from dotenv import load_dotenv
+
+load_dotenv('.env')
 
 app = FastAPI()
 
-
-class Item(BaseModel):
-    text: str = None
-    is_done: bool = False
-
-
-items = []
+# to avoid csrftokenError
+app.add_middleware(DBSessionMiddleware, db_url=os.environ['DATABASE_URL'])
 
 
 @app.get("/")
-def root():
-    return {"Hello": "World"}
+async def root():
+    return {"message": "hello world"}
 
 
-@app.post("/items")
-def create_item(item: Item):
-    items.append(item)
-    #SQL insert
-    return items
+@app.post('/book/', response_model=SchemaBook)
+async def book(book: SchemaBook):
+    db_book = ModelBook(title=book.title, rating=book.rating, author_id=book.author_id)
+    db.session.add(db_book)
+    db.session.commit()
+    return db_book
 
 
-@app.get("/items", response_model=list[Item])
-def list_items(limit: int = 10):
-    return items[0:limit]
+@app.get('/book/')
+async def book():
+    book = db.session.query(ModelBook).all()
+    return book
 
 
-@app.get("/items/{item_id}", response_model=Item)
-def get_item(item_id: int) -> Item:
-    if item_id < len(items):
-        return items[item_id]
-    else:
-        raise HTTPException(status_code=404, detail=f"Item {item_id} not found")
+@app.post('/author/', response_model=SchemaAuthor)
+async def author(author: SchemaAuthor):
+    db_author = ModelAuthor(name=author.name, age=author.age)
+    db.session.add(db_author)
+    db.session.commit()
+    return db_author
+
+
+@app.get('/author/')
+async def author():
+    author = db.session.query(ModelAuthor).all()
+    return author
+
+
+# To run locally
+if __name__ == '__main__':
+    uvicorn.run(app, host='0.0.0.0', port=8000)
