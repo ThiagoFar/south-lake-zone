@@ -5,8 +5,12 @@ from fastapi_sqlalchemy import DBSessionMiddleware, db
 from db_schema import Book as SchemaBook
 from db_schema import Author as SchemaAuthor
 
-from db_schema import Book
-from db_schema import Author
+from db_schema import Property as SchemaProperty
+from db_schema import Reservation as SchemaReservation
+
+from db_models import Property as ModelProperty
+from db_models import Reservation as ModelReservation
+
 
 from db_models import Book as ModelBook
 from db_models import Author as ModelAuthor
@@ -25,6 +29,14 @@ app.add_middleware(DBSessionMiddleware, db_url=os.environ['DATABASE_URL'])
 @app.get("/")
 async def root():
     return {"message": "hello world"}
+
+@app.post('/property/', response_model=SchemaProperty)
+async def property(property: SchemaProperty):
+    db_property = ModelProperty(title = property.title, address = property.address, city = property.city, state = property.state, country = property.country, capacity = property.capacity,
+                                price_per_night = property.price_per_night, active = property.active)
+    db.session.add(db_property)
+    db.session.commit()
+    return db_property
 
 
 @app.post('/book/', response_model=SchemaBook)
