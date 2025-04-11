@@ -18,10 +18,10 @@ app = FastAPI()
 # to avoid csrftokenError
 app.add_middleware(DBSessionMiddleware, db_url=os.environ['DATABASE_URL'])
 
-
+# add commands design pattern to endpoints
 @app.get("/")
 async def root():
-    return {"message": "hello world"}
+    return {"message": "Welcome to South lake zone API"}
 
 @app.post('/property/', response_model=SchemaProperty)
 async def property(property: SchemaProperty):
@@ -32,8 +32,8 @@ async def property(property: SchemaProperty):
     return db_property
 
 @app.get('/property/')
-async def property():
-    property = db.session.query(ModelProperty).all()
+async def property(address = "", city = "", state = ""):
+    property = db.session.query(ModelProperty).filter(ModelProperty.state.ilike(f'%{state}%'), ModelProperty.city.ilike(f'%{city}%'), ModelProperty.address.ilike(f'%{address}%')).all()
     return property
 
 @app.post('/reservation/', response_model=SchemaReservation)
