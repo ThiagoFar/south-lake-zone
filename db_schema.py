@@ -2,21 +2,6 @@
 import datetime
 from pydantic import BaseModel
 
-class Book(BaseModel):
-    title: str
-    rating: int
-    author_id: int
-
-    class Config:
-        orm_mode = True
-
-class Author(BaseModel):
-    name: str
-    age: int
-
-    class Config:
-        orm_mode = True
-
 class Property(BaseModel):
     title: str
     address: str
@@ -31,11 +16,13 @@ class Property(BaseModel):
         orm_mode = True
 
 class Reservation(BaseModel):
-    property_id: int
+    property_id: int  # alter be UUID
+    client_name: str
+    client_email: str
     start_date: datetime.datetime
     end_date: datetime.datetime
     guest_quantity: int
-    active: bool
+    active: bool # instead of deleting the reservation, we inactivate it to keep history
 
     class Config:
         orm_mode = True

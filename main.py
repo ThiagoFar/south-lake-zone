@@ -2,18 +2,11 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi_sqlalchemy import DBSessionMiddleware, db
 
-from db_schema import Book as SchemaBook
-from db_schema import Author as SchemaAuthor
-
 from db_schema import Property as SchemaProperty
 from db_schema import Reservation as SchemaReservation
 
 from db_models import Property as ModelProperty
 from db_models import Reservation as ModelReservation
-
-
-from db_models import Book as ModelBook
-from db_models import Author as ModelAuthor
 
 import os
 from dotenv import load_dotenv
@@ -38,33 +31,25 @@ async def property(property: SchemaProperty):
     db.session.commit()
     return db_property
 
+@app.get('/property/')
+async def property():
+    property = db.session.query(ModelProperty).all()
+    return property
 
-@app.post('/book/', response_model=SchemaBook)
-async def book(book: SchemaBook):
-    db_book = ModelBook(title=book.title, rating=book.rating, author_id=book.author_id)
-    db.session.add(db_book)
+@app.post('/reservation/', response_model=SchemaReservation)
+# make required parameters required
+async def reservation(reservation: SchemaReservation):
+    db_reservation = ModelReservation(property_id = reservation.property_id, client_name = reservation.client_name, client_email = reservation.client_email, guest_quantity = reservation.guest_quantity,
+                                      start_date = reservation.start_date, end_date = reservation.end_date,  active = reservation.active)
+    db.session.add(db_reservation)
     db.session.commit()
-    return db_book
+    return db_reservation
 
+@app.get('/reservation/')
+async def reservation():
+    reservation = db.session.query(ModelReservation).all()
+    return reservation
 
-@app.get('/book/')
-async def book():
-    book = db.session.query(ModelBook).all()
-    return book
-
-
-@app.post('/author/', response_model=SchemaAuthor)
-async def author(author: SchemaAuthor):
-    db_author = ModelAuthor(name=author.name, age=author.age)
-    db.session.add(db_author)
-    db.session.commit()
-    return db_author
-
-
-@app.get('/author/')
-async def author():
-    author = db.session.query(ModelAuthor).all()
-    return author
 
 
 # To run locally
