@@ -50,6 +50,19 @@ async def reservation():
     reservation = db.session.query(ModelReservation).all()
     return reservation
 
+@app.get('/property/avaliability/')
+async def avaliability(property_id, start_date, end_date, guest_quantity):
+
+    conflict = db.session.query(ModelReservation).filter(
+        ModelReservation.property_id == property_id,
+        ModelReservation.start_date < end_date,
+        ModelReservation.end_date > start_date, ModelReservation.active, ModelProperty.capacity >= guest_quantity
+    ).first()
+
+    response = "AVALIABLE" if conflict is None else "UNAVALIABLE"
+    return response
+
+
 
 
 # To run locally
