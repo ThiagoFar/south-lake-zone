@@ -3,11 +3,13 @@ from fastapi import FastAPI
 from fastapi_sqlalchemy import DBSessionMiddleware, db
 from sqlalchemy import or_
 
-from db_schema import Property as SchemaProperty
-from db_schema import Reservation as SchemaReservation
+from database.db_schema import Property as SchemaProperty
+from database.db_schema import Reservation as SchemaReservation
 
-from db_models import Property as ModelProperty
-from db_models import Reservation as ModelReservation
+from database.db_models import Property as ModelProperty
+from database.db_models import Reservation as ModelReservation
+
+from service import property_service
 
 import os
 from dotenv import load_dotenv
@@ -33,19 +35,21 @@ async def property(property: SchemaProperty):
     return db_property
 
 @app.get('/property/', tags=["Property Management"])
-async def property(address = "", city = "", state = "", max_price = 99999):
-    property = db.session.query(ModelProperty).filter(ModelProperty.state.ilike(f'%{state}%'), ModelProperty.city.ilike(f'%{city}%'),
-                                                      ModelProperty.address.ilike(f'%{address}%'), ModelProperty.price_per_night < max_price).all()
+async def property(address = "", city = "", state = "", max_price = None):
+    query = db.session.query(ModelProperty).filter(ModelProperty.state.ilike(f'%{state}%'), ModelProperty.city.ilike(f'%{city}%'),
+                                                      ModelProperty.address.ilike(f'%{address}%'))
+
+    if max_price is not None:
+        query = query.filter(ModelProperty.price_per_night < max_price)
+
+    property = query.all()
+
     return property
 
 @app.get('/property/avaliability/', tags=["Property Management"])
 async def avaliability(property_id, start_date, end_date, guest_quantity):
 
-    conflict = db.session.query(ModelReservation).filter(
-        ModelReservation.property_id == property_id,
-        ModelReservation.start_date < end_date,
-        ModelReservation.end_date > start_date, ModelReservation.active, ModelProperty.capacity >= guest_quantity
-    ).first()
+    conflict = property_service.find_avaliability_conflict(property_id, start_date, end_date, guest_quantity)
     # also checking if reservation is active
 
     response = "AVALIABLE" if conflict is None else "UNAVALIABLE"
