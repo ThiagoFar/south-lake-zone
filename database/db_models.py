@@ -15,8 +15,8 @@ class Property(Base):
     country = Column(String)
     capacity = Column(Integer)
     price_per_night = Column(Float)
-    time_created = Column(DateTime(timezone=True), server_default=func.now())
-    time_updated = Column(DateTime(timezone=True), onupdate=func.now())
+    create_date = Column(DateTime(timezone=True), server_default=func.now())
+    update_date = Column(DateTime(timezone=True), onupdate=func.now())
     active = Column(Boolean)
 
 class Reservation(Base):
@@ -28,8 +28,8 @@ class Reservation(Base):
     start_date = Column(DateTime(timezone=True))
     end_date = Column(DateTime(timezone=True))
     guest_quantity = Column(Integer)
-    time_created = Column(DateTime(timezone=True), server_default=func.now())
-    time_updated = Column(DateTime(timezone=True), onupdate=func.now())
+    create_date = Column(DateTime(timezone=True), server_default=func.now())
+    update_date = Column(DateTime(timezone=True), onupdate=func.now())
     active = Column(Boolean)
 
     property = relationship('Property')

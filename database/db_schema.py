@@ -12,8 +12,9 @@ class Property(BaseModel):
     price_per_night: int
     active: bool
 
-    class Config:
-        orm_mode = True
+    model_config = {
+        "from_attributes": True
+    }
 
 class Reservation(BaseModel):
     property_id: int  # alter be UUID
@@ -24,5 +25,6 @@ class Reservation(BaseModel):
     guest_quantity: int
     active: bool # instead of deleting the reservation, we inactivate it to keep history
 
-    class Config:
-        orm_mode = True
+    model_config = {
+        "from_attributes": True
+    }
