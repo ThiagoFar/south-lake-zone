@@ -4,11 +4,11 @@ from dotenv import load_dotenv
 from fastapi import FastAPI, Depends
 from fastapi_sqlalchemy import DBSessionMiddleware, db
 
-from commands.requests.property_handlers import (
+from commands.command_handlers.property_handlers import (
     find_property_handler,
     check_availability_handler,
 )
-from commands.requests.reservation_handlers import (
+from commands.command_handlers.reservation_handlers import (
     find_reservation_handler,
     delete_reservation_handler,
     create_reservation_handler,
@@ -17,9 +17,8 @@ from commands.requests.reservation_handlers import (
 from database.db_schema import Property as SchemaProperty
 from database.db_schema import Reservation as SchemaReservation
 from database.db_models import Property as ModelProperty
-from database.db_models import Reservation as ModelReservation
 
-from commands.requests.property_requests import AvailabilityRequest, GetPropertyRequest
+from commands.requests.property_requests import CheckAvailabilityRequest, GetPropertyRequest
 from commands.response.property_response import AvailabilityResponse
 
 
@@ -50,7 +49,7 @@ async def find_property(request: GetPropertyRequest = Depends()):
 # fmt:off
 @app.get("/property/availability/", response_model=AvailabilityResponse, tags=["Property Management"])# fmt:on
 async def check_availability(
-    request: AvailabilityRequest = Depends()):
+    request: CheckAvailabilityRequest = Depends()):
     response = check_availability_handler(request)
     return response
 

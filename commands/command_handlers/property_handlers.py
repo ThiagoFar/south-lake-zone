@@ -1,8 +1,11 @@
-from fastapi_sqlalchemy import db
-from commands.requests.property_requests import GetPropertyRequest, AvailabilityRequest
+from commands.requests.property_requests import (
+    GetPropertyRequest,
+    CheckAvailabilityRequest,
+)
 from commands.response.property_response import AvailabilityResponse
+from fastapi_sqlalchemy import db
 from database.db_models import Property as ModelProperty
-from service import property_service
+from database.db_models import Reservation as ModelReservation
 
 
 def find_property_handler(request: GetPropertyRequest):
@@ -17,8 +20,9 @@ def find_property_handler(request: GetPropertyRequest):
     property_list = query.all()
     return property_list
 
-def check_availability_handler(request: AvailabilityRequest ):
-    conflict = property_service.find_availability_conflict(
+
+def check_availability_handler(request: CheckAvailabilityRequest):
+    conflict = find_availability_conflict(
         request.property_id,
         request.start_date,
         request.end_date,
@@ -35,3 +39,18 @@ def check_availability_handler(request: AvailabilityRequest ):
     # fmt:on
 
     return response
+
+
+def find_availability_conflict(property_id, start_date, end_date, guest_quantity):
+    conflict = (
+        db.session.query(ModelReservation)
+        .filter(
+            ModelReservation.property_id == property_id,  # type: ignore
+            ModelReservation.start_date < end_date,  # type: ignore
+            ModelReservation.end_date > start_date,
+            ModelReservation.active,
+            ModelProperty.capacity >= guest_quantity,  # type: ignore
+        )
+        .first()
+    )
+    return conflict
