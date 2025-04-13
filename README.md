@@ -38,16 +38,14 @@ Create postgres Database and update .env with connection info
    
 
 
-
-
-
 <!-- USAGE EXAMPLES -->
 ## Usage
 
 Check availability endpoint (payload):
 
-GET
-/properties/availability?property_id=1&start_date=2024-12-20&end_date=202
+REQUEST: 
+
+GET /properties/availability?property_id=1&start_date=2024-12-20&end_date=202
 4-12-27&guests_quantity=4
 
 RESPONSE: 
