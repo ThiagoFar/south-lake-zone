@@ -9,7 +9,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/ThiagoFar">
-    <img src="logo.png" alt="Logo" width="80" height="80">
+    <img src="https://bitbucket.org/midnight_raft/south-lake-zone/src/5145d4797f6cd44c2c81add6ec38548a0a4aad85/logo.png." alt="Logo" width="80" height="80">
   </a>
 </div>
 
