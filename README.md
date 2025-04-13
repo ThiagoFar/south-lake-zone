@@ -5,6 +5,13 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <a href="https://github.com/ThiagoFar">
+    <img src="logo.png" alt="Logo" width="80" height="80">
+  </a>
+</div>
 
 This is a simple API that allows for homestay reservations. it was request as a code challenge.
 
