@@ -23,6 +23,7 @@ from commands.response.property_response import AvailabilityResponse
 
 
 load_dotenv(".env")
+load_dotenv()
 app = FastAPI()
 app.add_middleware(DBSessionMiddleware, db_url=os.environ["DATABASE_URL"])  # type: ignore
 
