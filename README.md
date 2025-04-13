@@ -33,7 +33,7 @@ Create postgres Database and update .env with connection info
 
 
 1. use pip install -r /path/to/requirements.txt to get all requirements.
-2. use 'alembic revision --autogenerate -m "New Migration' on terminal to create a migration.
+2. use 'alembic revision --autogenerate -m "New Migration" ' on terminal to create a migration.
 3. use 'alembic upgrade head' to generate tha migration tables on the database.
 4. use 'uvicorn main:app --reload' on terminal to start the app.
 5. access http://127.0.0.1:8000/docs to check out the swagger.
@@ -66,25 +66,24 @@ RESPONSE:
 
 Requested functionality: 
 
-- [ ] Create property endpoint
-- [ ] List property endpoint
-    - [ ] filter by address, city, state, capacity and max price
-- [ ] Create reservation endpoint
-    - [ ] Validate property capacity x guests number
-    - [ ] Validate dates (optional)
-- [ ] Cancel reservation endpoint
-- [ ] Check availability endpoint
+- [X] Create property endpoint
+- [X] List property endpoint
+    - [X] filter by address, city, state, capacity and max price
+- [X] Create reservation endpoint
+    - [X] Validate property capacity x guests number
+    - [X] Validate dates (optional)
+- [X] Cancel reservation endpoint
+- [X] Check availability endpoint
 
 Extras:
 
 - [ ] Include unity tests
-- [ ] Commands Design Pattern
-- [ ] Flake8 and Black for linting and formatting
-- [ ] UUID identifiers 
-- [ ] Commands Design Pattern
-- [ ] 'active' field to track history
-- [ ] Create/Update fields included for debugging/operational
-- [ ] Services for code reusability
+- [X] Commands Design Pattern
+- [X] Flake8 and Black for linting and formatting
+- [ ] UUID identifiers
+- [X] 'active' field to track history
+- [X] Create/Update fields included for debugging/operational
+- [X] HTTP ERROR CODES
 
 
 
