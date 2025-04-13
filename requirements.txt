@@ -7,3 +7,4 @@ sqlalchemy
 dotenv
 pytest
 httpx
+starlette

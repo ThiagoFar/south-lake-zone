@@ -18,7 +18,10 @@ from database.db_schema import Property as SchemaProperty
 from database.db_schema import Reservation as SchemaReservation
 from database.db_models import Property as ModelProperty
 
-from commands.requests.property_requests import CheckAvailabilityRequest, GetPropertyRequest
+from commands.requests.property_requests import (
+    CheckAvailabilityRequest,
+    GetPropertyRequest,
+)
 from commands.response.property_response import AvailabilityResponse
 
 

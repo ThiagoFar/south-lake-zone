@@ -32,7 +32,7 @@ async def test_root():
 
 
 @pytest.mark.asyncio
-async def when_dates_are_invalid_should_return_error():
+async def test_when_dates_are_invalid_should_return_error():
     start_date = datetime.now()
     end_date = start_date - timedelta(days=1)
     payload = {
@@ -50,7 +50,7 @@ async def when_dates_are_invalid_should_return_error():
 
 
 @pytest.mark.asyncio
-async def when_guest_number_exceeds_capacity_should_return_error(mocker):
+async def test_when_guest_number_exceeds_capacity_should_return_error(mocker):
     start_date = datetime.now()
     end_date = start_date + timedelta(days=2)
 
