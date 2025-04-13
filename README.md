@@ -9,18 +9,16 @@
 <br />
 <div align="center">
   <a href="https://github.com/ThiagoFar">
-    <img src="logo.png" alt="Logo" width="80" height="80">
+    <img src="logo.png" alt="Logo" width="40" height="40">
   </a>
 </div>
 
-This is a simple API that allows for homestay reservations. it was request as a code challenge.
+
 
 
 <!-- GETTING STARTED -->
 ## Getting Started
-
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+This is a simple API that allows for homestay reservations. it was requested as a code challenge.
 
 ### Prerequisites
 
@@ -33,9 +31,9 @@ Create postgres Database and update .env with connection info
 
 
 1. use pip install -r /path/to/requirements.txt to get all requirements.
-2. use 'alembic revision --autogenerate -m "New Migration" ' on terminal to create a migration.
-3. use 'alembic upgrade head' to generate tha migration tables on the database.
-4. use 'uvicorn main:app --reload' on terminal to start the app.
+2. use ```alembic revision --autogenerate -m "New Migration" ``` on terminal to create a migration.
+3. use ```alembic upgrade head``` to generate tha migration tables on the database.
+4. use ```uvicorn main:app --reload``` on terminal to start the app.
 5. access http://127.0.0.1:8000/docs to check out the swagger.
    
 
@@ -77,7 +75,7 @@ Requested functionality:
 
 Extras:
 
-- [ ] Include unity tests
+- [X] Include unity tests
 - [X] Commands Design Pattern
 - [X] Flake8 and Black for linting and formatting
 - [ ] UUID identifiers
