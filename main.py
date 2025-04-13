@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi_sqlalchemy import DBSessionMiddleware, db
 
+from commands.requests.property_handlers import get_property_handler
 from service import property_service
 
 from database.db_schema import Property as SchemaProperty
@@ -12,7 +13,7 @@ from database.db_schema import Reservation as SchemaReservation
 from database.db_models import Property as ModelProperty
 from database.db_models import Reservation as ModelReservation
 
-from commands.requests.property_requests import AvailabilityRequest
+from commands.requests.property_requests import AvailabilityRequest, GetPropertyRequest
 from commands.response.property_response import AvailabilityResponse
 
 
@@ -36,16 +37,8 @@ async def create_property(request: SchemaProperty):
 
 
 @app.get("/property/", tags=["Property Management"])
-async def find_property(address="", city="", state="", max_price=None):
-    query = db.session.query(ModelProperty).filter(
-        ModelProperty.state.ilike(f"%{state}%"),
-        ModelProperty.city.ilike(f"%{city}%"),
-        ModelProperty.address.ilike(f"%{address}%"),
-    )
-    if max_price is not None:
-        query = query.filter(ModelProperty.price_per_night < max_price)  # type: ignore
-
-    property_list = query.all()
+async def find_property(request: GetPropertyRequest = Depends()):
+    property_list = get_property_handler(request)
     return property_list
 
 # fmt:off
@@ -53,7 +46,7 @@ async def find_property(address="", city="", state="", max_price=None):
 async def check_availability(
     request: AvailabilityRequest = Depends(),
 ):  # Depends() method makes the endpoint expect a query string instead of a body, since get endpoints can't have body
-    conflict = property_service.find_avaliability_conflict(
+    conflict = property_service.find_availability_conflict(
         request.property_id,
         request.start_date,
         request.end_date,

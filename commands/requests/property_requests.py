@@ -7,3 +7,9 @@ class AvailabilityRequest(BaseModel):
     start_date: datetime.datetime
     end_date: datetime.datetime
     guest_quantity: int
+
+class GetPropertyRequest(BaseModel):
+    address: str = ""
+    city: str = ""
+    state: str = ""
+    max_price: float = 0
