@@ -32,10 +32,11 @@ Create postgres Database and update .env with connection info
 
 
 1. use pip install -r /path/to/requirements.txt to get all requirements.
-2. use ```alembic revision --autogenerate -m "New Migration" ``` on terminal to create a migration.
-3. use ```alembic upgrade head``` to generate tha migration tables on the database.
-4. use ```uvicorn main:app --reload``` on terminal to start the app.
-5. access http://127.0.0.1:8000/docs to check out the swagger.
+2. create a .env file in the root of the project and fill it with the database info, example: ```DATABASE_URL = 'postgresql://postgres:<PASSWORD>@localhost/<DATABASE>```
+3. Use ```alembic revision --autogenerate -m "New Migration" ``` on terminal to create a migration.
+4. Use ```alembic upgrade head``` to generate tha migration tables on the database.
+5. Use ```uvicorn main:app --reload``` on terminal to start the app.
+6. Access http://127.0.0.1:8000/docs to check out the swagger.
    
 
 
