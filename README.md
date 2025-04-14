@@ -77,6 +77,7 @@ Extras:
 
 - [X] Include unity tests
 - [X] Commands Design Pattern
+- [X] S.O.L.I.D and pythonic adherence
 - [X] Flake8 and Black for linting and formatting
 - [ ] UUID identifiers
 - [X] 'active' field to track history
