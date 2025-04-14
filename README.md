@@ -9,7 +9,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/ThiagoFar">
-    <img src="logo.png" alt="Logo" width="40" height="40">
+    <img src="logo.png" alt="Logo" width="100" height="100">
   </a>
 </div>
 
