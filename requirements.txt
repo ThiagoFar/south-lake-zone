@@ -1,2 +1,10 @@
 fastapi
+fastapi-sqlalchemy
+psycopg2
 uvicorn
+pydantic
+sqlalchemy
+dotenv
+pytest
+httpx
+starlette
