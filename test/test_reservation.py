@@ -6,7 +6,7 @@ from starlette import status
 from main import app
 
 BASE_RESERVATION = {
-    "property_id": 2,
+    "property_id": 3,
     "client_name": "John Doe",
     "client_email": "john@example.com",
     "guest_quantity": 2,
